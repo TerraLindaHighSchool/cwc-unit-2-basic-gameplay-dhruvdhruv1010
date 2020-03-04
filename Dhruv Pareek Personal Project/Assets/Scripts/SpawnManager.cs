@@ -11,10 +11,15 @@ public class SpawnManager : MonoBehaviour
     private float xSpawnRange = 16.0f;
     private float zPowerupRange = 5.0f;
     private float ySpawn = 0.75f;
+
+    private float powerupSpawnTime = 5.0f;
+    private float enemySpawnTime = 1.0f;
+    private float startDelay = 1.0f;
     // Start is called before the first frame update
     void Start()
     {
-        SpawnEnemy();
+        InvokeRepeating("SpawnEnemy", startDelay, enemySpawnTime);
+        InvokeRepeating("SpawnPowerup", startDelay, powerupSpawnTime);
     }
 
     // Update is called once per frame
@@ -31,5 +36,15 @@ public class SpawnManager : MonoBehaviour
         Vector3 spawnPos = new Vector3(randomX, ySpawn, zEnemySpawn);
 
         Instantiate(enemies[randomIndex], spawnPos, enemies[randomIndex].gameObject.transform.rotation);
+    }
+
+    void SpawnPowerup()
+    {
+        float randomX = Random.Range(-xSpawnRange, xSpawnRange);
+        float randomZ = Random.Range(-zPowerupRange, zPowerupRange);
+
+        Vector3 spawnPos = new Vector3(randomX, ySpawn, randomZ);
+
+        Instantiate(powerup, spawnPos, powerup.gameObject.transform.rotation);
     }
 }
